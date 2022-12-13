@@ -1,0 +1,50 @@
+---
+title: "DDS Project 2"
+author: "Krithika Kondakindi"
+date: "2022-12-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Monthly Income Multiple Regression Model
+
+```{r}
+attrition <- read.csv(file.choose(),stringsAsFactors = FALSE)
+str(attrition)
+attrition$Age = as.numeric(attrition$Age)
+```
+
+Test various variables to see if there is a linear regression with Monthly Income
+```{r}
+plot(attrition$Age, attrition$MonthlyIncome)
+plot(attrition$TotalWorkingYears, attrition$MonthlyIncome)
+```
+
+Log Monthly Income and Age and Replot
+```{r}
+attrition$lMonthlyIncome = log(attrition$MonthlyIncome)
+attrition$lAge = log(attrition$Age)
+
+plot(attrition$lAge, attrition$lMonthlyIncome)
+plot(attrition$TotalWorkingYears, attrition$lMonthlyIncome)
+```
+
+```{r}
+model1 = lm(MonthlyIncome ~ lAge + TotalWorkingYears, data = attrition)
+summary(model1)
+```
+
+
+Calculate RMSE for Model1
+```{r}
+residuals(model1)
+sum(residuals(model1))
+MSE1 = sum(residuals(model1)^2)/867
+MSE1
+RMSE1 = sqrt(MSE1)
+RMSE1
+```
+#2885.368
